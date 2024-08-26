@@ -9,6 +9,7 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import RequestPageOutlined from "@mui/icons-material/RequestPageOutlined";
 import AddOutlined from "@mui/icons-material/AddOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -95,7 +96,7 @@ const Sidebar = () => {
               </Box>
               <Box textAlign="center">
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                 Admin
+                  Admin
                 </Typography>
               </Box>
             </Box>
@@ -131,7 +132,28 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Voucher Management
+            </Typography>
+            <Item
+              title="Voucher Management"
+              to="/admin/voucher"
+              icon={<FavoriteBorderIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Add Voucher"
+              to="/admin/add_voucher"
+              icon={<AddOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
             <Typography
               variant="h6"
@@ -154,7 +176,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+
             <Typography
               variant="h6"
               color={colors.grey[300]}

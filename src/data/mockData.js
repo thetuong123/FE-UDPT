@@ -2,17 +2,19 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_VER = process.env.REACT_APP_API_VER;
 */
-const BASE_URL = 'https://udpt-be.onrender.com';
-const API_VER = 'api/v1';
+const BASE_URL = "https://udpt-be.onrender.com";
+const API_VER = "api/v1";
 
 // Fetch team data
 export const fetchTeamData = async (page = 1, limit = 10) => {
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/users/?page=${page}&limit=${limit}`);
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/users/?page=${page}&limit=${limit}`
+    );
     const result = await response.json();
     return result.data; // Assuming the API response has a 'data' key
   } catch (error) {
-    console.error('Error fetching team data:', error);
+    console.error("Error fetching team data:", error);
     return []; // Return an empty array in case of error
   }
 };
@@ -39,19 +41,18 @@ export const createUser = async (userData) => {
   }
 };
 
-
 // Delete a user by ID
 export const deleteUser = async (userId) => {
   try {
     const response = await fetch(`${BASE_URL}/${API_VER}/users/${userId}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
     if (!response.ok) {
-      throw new Error('Failed to delete user');
+      throw new Error("Failed to delete user");
     }
     return true;
   } catch (error) {
-    console.error('Error deleting user:', error);
+    console.error("Error deleting user:", error);
     return false; // Return false if deletion fails
   }
 };
@@ -60,34 +61,34 @@ export const deleteUser = async (userId) => {
 export const updateUser = async (userId, updatedData) => {
   try {
     const response = await fetch(`${BASE_URL}/${API_VER}/users/${userId}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update user');
+      throw new Error("Failed to update user");
     }
 
     return await response.json(); // Return the updated user data
   } catch (error) {
-    console.error('Error updating user:', error);
+    console.error("Error updating user:", error);
     return null; // Return null if update fails
   }
 };
 export const fetchUserById = async (userId) => {
   try {
     const response = await fetch(`${BASE_URL}/${API_VER}/users/${userId}`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to fetch user data');
+      throw new Error("Failed to fetch user data");
     }
 
     return await response.json(); // Trả về dữ liệu người dùng
   } catch (error) {
-    console.error('Error fetching user:', error);
+    console.error("Error fetching user:", error);
     return null; // Trả về null nếu fetch thất bại
   }
 };
@@ -95,34 +96,35 @@ export const fetchUserById = async (userId) => {
 // View all activities
 export const fetchActivitiesData = async (page = 1, limit = 10) => {
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/activities/?page=${page}&limit=${limit}`);
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/activities/?page=${page}&limit=${limit}`
+    );
     const result = await response.json();
     return result.data;
   } catch (error) {
-    console.error('Error fetching activities data:', error);
+    console.error("Error fetching activities data:", error);
     return [];
   }
 };
-
 
 // Create a new activity
 export const createActivity = async (activityData) => {
   try {
     const response = await fetch(`${BASE_URL}/${API_VER}/activities/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(activityData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create activity');
+      throw new Error("Failed to create activity");
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error creating activity:', error);
+    console.error("Error creating activity:", error);
     return null;
   }
 };
@@ -130,21 +132,24 @@ export const createActivity = async (activityData) => {
 // Update an activity by ID
 export const updateActivity = async (activityId, updatedData) => {
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/activities/${activityId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/activities/${activityId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      }
+    );
 
     if (!response.ok) {
-      throw new Error('Failed to update activity');
+      throw new Error("Failed to update activity");
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error updating activity:', error);
+    console.error("Error updating activity:", error);
     return null;
   }
 };
@@ -152,15 +157,17 @@ export const updateActivity = async (activityId, updatedData) => {
 // Fetch an activity by ID
 export const fetchActivityById = async (activityId) => {
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/activities/${activityId}`);
-    
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/activities/${activityId}`
+    );
+
     if (!response.ok) {
-      throw new Error('Failed to fetch activity data');
+      throw new Error("Failed to fetch activity data");
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error fetching activity:', error);
+    console.error("Error fetching activity:", error);
     return null;
   }
 };
@@ -168,54 +175,55 @@ export const fetchActivityById = async (activityId) => {
 // Fetch requests by user ID
 export const fetchRequestData = async (userId, page = 1, limit = 10) => {
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/tickets/?user_id=${userId}&page=${page}&limit=${limit}`);
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/tickets/?user_id=${userId}&page=${page}&limit=${limit}`
+    );
     if (!response.ok) {
-      throw new Error('Failed to fetch request data');
+      throw new Error("Failed to fetch request data");
     }
     const result = await response.json();
     return result.data; // Assuming the API response has a 'data' key
   } catch (error) {
-    console.error('Error fetching request data:', error);
+    console.error("Error fetching request data:", error);
     return [];
   }
 };
-
 
 // Update an Request by ID
 export const updateRequest = async (ticketId, updatedData) => {
   try {
     const response = await fetch(`${BASE_URL}/${API_VER}/tickets/${ticketId}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update Request');
+      throw new Error("Failed to update Request");
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error updating Request:', error);
+    console.error("Error updating Request:", error);
     return null;
   }
 };
 
-
-
 // Function to fetch work logs by work_logs_id
 export const fetchWorkLogById = async (work_logs_id) => {
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/${work_logs_id}`);
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/work-logs/${work_logs_id}`
+    );
     if (!response.ok) {
       throw new Error(`Error fetching work log with ID ${work_logs_id}`);
     }
     const result = await response.json();
     return result.data; // Assuming the API response has a 'data' key
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     return null;
   }
 };
@@ -223,42 +231,111 @@ export const fetchWorkLogById = async (work_logs_id) => {
 // Function to fetch work logs by user_id
 export const fetchWorkLogsByUserId = async (user_id) => {
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/user/${user_id}`);
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/work-logs/user/${user_id}`
+    );
     if (!response.ok) {
       throw new Error(`Error fetching work logs for user with ID ${user_id}`);
     }
     const result = await response.json();
     return result.data; // Assuming the API response has a 'data' key
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     return null;
   }
 };
 
+//create voucher instance
+export const createVoucher = async (Voucher) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Voucher),
+    });
 
+    if (!response.ok) {
+      throw new Error("Failed to create voucher");
+    }
 
+    const result = await response.json();
+    console.log("API response:", result);
+    return result.data;
+  } catch (error) {
+    console.error("Error creating voucher:", error);
+    return null;
+  }
+};
+
+//view voucher by ID of voucher
+export const viewVoucherByID = async (VoucherId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher/${VoucherId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch voucher data");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching voucher:", error);
+    return null;
+  }
+};
+
+//view voucher data
+export const viewVoucher = async (page = 1, limit = 10) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/voucher/?page=${page}&limit=${limit}`
+    );
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error("Error fetching vouchers data:", error);
+    return [];
+  }
+};
+
+//dekete voucher by ID
+export const deleteVoucher = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher/${id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete voucher");
+    }
+    return true;
+  } catch (error) {
+    console.error("Error deleting voucher:", error);
+    return false;
+  }
+};
 
 export const AdminDashBoard = [
   {
     id: 1,
     name: "ADMIN TEMP",
-    dob:"1/1/1995",
-    gender:"Male",
+    dob: "1/1/1995",
+    gender: "Male",
     email: "jonsnow@gmail.com",
     age: 35,
     phone: "(665)121-5454",
-    address:"VN"
-  }
+    address: "VN",
+  },
 ];
 export const EmployeeDashBoard = [
   {
     id: 1,
     name: "Employee Temp",
-    dob:"1/1/1995",
-    gender:"Male",
+    dob: "1/1/1995",
+    gender: "Male",
     email: "jonsnow@gmail.com",
     age: 35,
     phone: "(665)121-5454",
-    address:"VN"
-  }
+    address: "VN",
+  },
 ];

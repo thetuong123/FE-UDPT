@@ -14,6 +14,8 @@ import Request from "./scenes/request";
 import Employee from "./scenes/employee";
 import Sidebar1 from "./scenes/global/Sidebar1";
 import Calendar from "./scenes/calendar/calendar";
+import Voucher from "./scenes/voucher_manager";
+import AddVoucher from "./scenes/add_voucher";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -51,7 +53,8 @@ function App() {
               <Route path="/admin/add_user" element={<AddUser />} />
               <Route path="/admin/add_activity" element={<AddActivity />} />
               <Route path="/admin/request" element={<Request />} />
-
+              <Route path="/admin/voucher" element={<Voucher />} />
+              <Route path="/admin/add_voucher" element={<AddVoucher />} />
 
               {/* Các route dành cho employee */}
               <Route path="/employee" element={<Employee />} />
