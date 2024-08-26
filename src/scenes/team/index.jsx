@@ -57,18 +57,19 @@ const Team = () => {
 
   const columns = [
     { field: "id", headerName: "ID" },
+    
     {
       field: "full_name",
       headerName: "Full Name",
+      flex: 1,
+    },
+    {
+      field: "username",
+      headerName: "User Name",
       flex: 0.5,
       cellClassName: "name-column--cell",
     },
     
-    {
-      field: "citizen_id",
-      headerName: "Citizen ID",
-      flex: 1,
-    },
     {
       field: "role",
       headerName: "Role",

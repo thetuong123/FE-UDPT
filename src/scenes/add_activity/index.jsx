@@ -3,22 +3,43 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { createActivity } from "../../data/mockData"; // Import the createActivity function
 
-const Form = () => {
+const NewActivityForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const handleFormSubmit = async (values, { resetForm }) => {
+    console.log("Form values:", values); // Log form values
+    try {
+      // Prepare the data according to the API schema
+      const activityData = {
+        title: values.title,
+        type: values.type,
+        from_date: values.fromDate,
+        to_date: values.toDate,
+        description: values.description,
+      };
+
+      const createdActivity = await createActivity(activityData);
+      if (createdActivity) {
+        console.log("Activity created successfully:", createdActivity);
+        resetForm(); // Reset form fields after successful submission
+      } else {
+        console.error("Failed to create activity");
+      }
+    } catch (error) {
+      console.error("Error during activity creation:", error);
+    }
   };
 
   return (
     <Box m="20px">
-      <Header title="CREATE USER" subtitle="Create a New User Profile" />
+      <Header title="CREATE ACTIVITY" subtitle="Create a New Activity" />
 
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
-        validationSchema={checkoutSchema}
+        validationSchema={activitySchema}
       >
         {({
           values,
@@ -41,84 +62,76 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="Title"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Last Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
+                value={values.title}
+                name="title"
+                color="secondary"
+                error={!!touched.title && !!errors.title}
+                helperText={touched.title && errors.title}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Contact Number"
+                label="Type"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
+                value={values.type}
+                name="type"
+                color="secondary"
+                error={!!touched.type && !!errors.type}
+                helperText={touched.type && errors.type}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="datetime-local"
+                label="From Date"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.fromDate}
+                name="fromDate"
+                color="secondary"
+                error={!!touched.fromDate && !!errors.fromDate}
+                helperText={touched.fromDate && errors.fromDate}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="datetime-local"
+                label="To Date"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.toDate}
+                name="toDate"
+                color="secondary"
+                error={!!touched.toDate && !!errors.toDate}
+                helperText={touched.toDate && errors.toDate}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Address 1"
+                label="Description"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
+                value={values.description}
+                name="description"
+                color="secondary"
+                error={!!touched.description && !!errors.description}
+                helperText={touched.description && errors.description}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New User
+                Create New Activity
               </Button>
             </Box>
           </form>
@@ -128,27 +141,22 @@ const Form = () => {
   );
 };
 
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+// Validation schema
+const activitySchema = yup.object().shape({
+  title: yup.string().required("required"),
+  type: yup.string().required("required"),
+  fromDate: yup.string().required("required"),
+  toDate: yup.string().required("required"),
+  description: yup.string().required("required"),
 });
+
+// Initial form values
 const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
+  title: "",
+  type: "",
+  fromDate: "",
+  toDate: "",
+  description: "",
 };
 
-export default Form;
+export default NewActivityForm;

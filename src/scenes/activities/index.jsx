@@ -52,12 +52,6 @@ const ManageActivities = () => {
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
-      flex: 0.5,
-      cellClassName: "name-column--cell",
-    },
-    {
       field: "type",
       headerName: "Type",
       flex: 1,

@@ -1,3 +1,7 @@
+/*
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const API_VER = process.env.REACT_APP_API_VER;
+*/
 const BASE_URL = 'https://udpt-be.onrender.com';
 const API_VER = 'api/v1';
 
@@ -12,6 +16,29 @@ export const fetchTeamData = async (page = 1, limit = 10) => {
     return []; // Return an empty array in case of error
   }
 };
+export const createUser = async (userData) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/users/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create user");
+    }
+
+    const result = await response.json();
+    console.log("API response:", result); // Log the response for debugging
+    return result.data; // Assuming the API response has a 'data' key
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return null; // Return null in case of error
+  }
+};
+
 
 // Delete a user by ID
 export const deleteUser = async (userId) => {
@@ -78,6 +105,28 @@ export const fetchActivitiesData = async (page = 1, limit = 10) => {
 };
 
 
+// Create a new activity
+export const createActivity = async (activityData) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/activities/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(activityData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create activity');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating activity:', error);
+    return null;
+  }
+};
+
 // Update an activity by ID
 export const updateActivity = async (activityId, updatedData) => {
   try {
@@ -116,10 +165,95 @@ export const fetchActivityById = async (activityId) => {
   }
 };
 
-export const mockDataDashBoard = [
+// Fetch requests by user ID
+export const fetchRequestData = async (userId, page = 1, limit = 10) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/tickets/?user_id=${userId}&page=${page}&limit=${limit}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch request data');
+    }
+    const result = await response.json();
+    return result.data; // Assuming the API response has a 'data' key
+  } catch (error) {
+    console.error('Error fetching request data:', error);
+    return [];
+  }
+};
+
+
+// Update an Request by ID
+export const updateRequest = async (ticketId, updatedData) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/tickets/${ticketId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update Request');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating Request:', error);
+    return null;
+  }
+};
+
+
+
+// Function to fetch work logs by work_logs_id
+export const fetchWorkLogById = async (work_logs_id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/${work_logs_id}`);
+    if (!response.ok) {
+      throw new Error(`Error fetching work log with ID ${work_logs_id}`);
+    }
+    const result = await response.json();
+    return result.data; // Assuming the API response has a 'data' key
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
+// Function to fetch work logs by user_id
+export const fetchWorkLogsByUserId = async (user_id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/user/${user_id}`);
+    if (!response.ok) {
+      throw new Error(`Error fetching work logs for user with ID ${user_id}`);
+    }
+    const result = await response.json();
+    return result.data; // Assuming the API response has a 'data' key
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
+
+
+
+export const AdminDashBoard = [
   {
     id: 1,
-    name: "Jon Snow",
+    name: "ADMIN TEMP",
+    dob:"1/1/1995",
+    gender:"Male",
+    email: "jonsnow@gmail.com",
+    age: 35,
+    phone: "(665)121-5454",
+    address:"VN"
+  }
+];
+export const EmployeeDashBoard = [
+  {
+    id: 1,
+    name: "Employee Temp",
     dob:"1/1/1995",
     gender:"Male",
     email: "jonsnow@gmail.com",

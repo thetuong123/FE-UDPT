@@ -1,14 +1,13 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { mockDataDashBoard } from "../../data/mockData";
+import { AdminDashBoard } from "../../data/mockData";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // Assuming the first item in mockDataDashBoard is the one to display
-  const userDetails = mockDataDashBoard[0];
+  const userDetails = AdminDashBoard[0];
 
   return (
     <Box m="20px">
