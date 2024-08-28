@@ -1,70 +1,102 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
-import Header from "../../components/Header";
-import { AdminDashBoard } from "../../data/mockData";
+import React, { useEffect, useState } from 'react';
+import { fetchUserInfo } from '../../data/mockData'; // Adjust the import path based on your project structure
+import { Box, Typography, CircularProgress, Avatar, Grid } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 const Dashboard = () => {
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
-  const userDetails = AdminDashBoard[0];
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await fetchUserInfo(); // Fetch data using the updated fetchUserInfo function
+        setUserInfo(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getData();
+  }, []);
+
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        bgcolor={theme.palette.background.default}
+      >
+        <CircularProgress color="secondary" />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        bgcolor={theme.palette.background.default}
+      >
+        <Typography variant="h6" color="error">
+          Error: {error}
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
-    <Box m="20px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-      </Box>
-
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="540px"
-        gap="30px"
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      bgcolor="#D3D3D3" // Light background color
+      color="#1c3f5a" // Deep blue text color
+      p={3}
+    >
+      <Grid
+        container
+        spacing={3}
+        boxShadow={2}
+        borderRadius={2}
+        bgcolor="#ffffff" // White box background
+        width={{ xs: "100%", sm: "1000px", md: "1000px" }} // Increased width to better fill space
+        p={3}
       >
-        {/* Personal Details Section */}
-        <Box
-          gridColumn="span 12"
-          backgroundColor={colors.primary[400]}
-          p="30px"
-          borderRadius="10px"
-          boxShadow={`0 4px 8px 0 ${colors.primary[500]}`}
-        >
-          <Typography variant="h5" fontWeight="bold" color={colors.grey[100]} mb="20px">
+        {/* Left Side - Avatar */}
+        <Grid item xs={12} sm={4} display="flex" justifyContent="center" alignItems="center">
+          <Avatar
+            src={userInfo?.avatar}
+            alt="User Avatar"
+            sx={{ width: 150, height: 150 }} // Increased avatar size
+          />
+        </Grid>
+
+        {/* Right Side - Personal Details */}
+        <Grid item xs={12} sm={8}>
+          <Typography variant="h5" mb={2} color="#48D1CC">
             Personal Details
           </Typography>
-          <Box 
-            display="grid" 
-            gridTemplateColumns="repeat(2, 1fr)" 
-            gap="20px"
-            color={colors.grey[100]}
-          >
-            <Typography variant="body1">
-              <strong>Name:</strong> {userDetails.name}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Father's Name:</strong> {userDetails.fatherName}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Date of Birth:</strong> {userDetails.dob}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Gender:</strong> {userDetails.gender}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Email:</strong> {userDetails.email}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Phone:</strong> {userDetails.phone}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Local Address:</strong> {userDetails.localAddress}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Permanent Address:</strong> {userDetails.permanentAddress}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
+          <Typography variant="h6"><strong>Full Name:</strong> {userInfo.full_name}</Typography>
+          <Typography variant="h6"><strong>Username:</strong> {userInfo.username}</Typography>
+          <Typography variant="h6"><strong>Personal ID:</strong> {userInfo.id}</Typography>
+          <Typography variant="h6"><strong>Email:</strong> {userInfo.email}</Typography>
+          <Typography variant="h6"><strong>Citizen ID:</strong> {userInfo.citizen_id}</Typography>
+          <Typography variant="h6"><strong>Bonus Point:</strong> {userInfo.bonus_point}</Typography>
+          <Typography variant="h6"><strong>Role:</strong> {userInfo.role}</Typography>
+          <Typography variant="h6"> <strong>Created At:</strong> {new Date(userInfo.created_at).toLocaleDateString('vi-VN')}</Typography>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

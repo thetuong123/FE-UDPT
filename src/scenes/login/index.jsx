@@ -1,24 +1,36 @@
-import React, { useState } from "react";
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { loginUser } from '../../data/mockData';
+import { Box, Typography, TextField, Button } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+function App() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const theme = useTheme();
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Basic validation for username and password
-    if (username === "admin" && password === "1") {
-      navigate("/admin");
-    } else if (username === "employee" && password === "1") {
-      navigate("/employee");
-    } else {
-      setError("Invalid username or password");
-    }
+  const handleLogin = (event) => {
+    event.preventDefault();
+
+    loginUser(username, password)
+      .then(data => {
+        if (data.access_token) {
+          setError('');          
+          if (data.user.role === 'manager') {
+            navigate('/admin');
+          } else if (data.user.role === 'employee') {
+            navigate('/employee');
+          }
+        } else {
+          setError('Login failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setError('Login error');
+      });
   };
 
   return (
@@ -43,7 +55,7 @@ const Login = () => {
         backgroundColor={theme.palette.background.paper}
         width={{ xs: "90%", sm: "400px" }}
       >
-        <Typography variant="h4" mb={3} color="secondary">
+        <Typography variant="h4" mb={3} color={theme.palette.secondary.main}>
           Login
         </Typography>
         <TextField
@@ -74,7 +86,7 @@ const Login = () => {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
+          color="secondary"
           fullWidth
           sx={{ mt: 3, py: 1.5 }}
         >
@@ -83,6 +95,6 @@ const Login = () => {
       </Box>
     </Box>
   );
-};
+}
 
-export default Login;
+export default App;

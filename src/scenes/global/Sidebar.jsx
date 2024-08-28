@@ -169,6 +169,28 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Voucher
+            </Typography>
+            <Item
+              title="Manage Voucher"
+              to="/admin/voucher"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Manage Exchange"
+              to="/admin/exchange"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </Box>
         </Menu>
       </ProSidebar>

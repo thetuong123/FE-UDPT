@@ -28,7 +28,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar1 = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -124,6 +124,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Update Profile"
+              to="/employee/update_profile"
+              icon={<CalendarTodayOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
             <Typography
               variant="h6"
@@ -133,20 +140,19 @@ const Sidebar = () => {
               Activities
             </Typography>
             <Item
-              title="Manage Activities"
-              to="/activities"
+              title="Add Request"
+              to="/employee/add_request"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Add Activity"
-              to="/add_activity"
+              title="Add Request"
+              to="/admin/add_request"
               icon={<AddOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
-            
           </Box>
         </Menu>
       </ProSidebar>
@@ -154,4 +160,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Sidebar1;

@@ -3,47 +3,43 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { createActivity } from "../../data/mockData"; // Import the createActivity function
+import { createTicket } from "../../data/mockData"; // Import the createTicket function
 
-const NewActivityForm = () => {
+const NewTicketForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-
-  const formatDateTime = (date) => {
-    return new Date(date).toISOString(); // Format the date to match the API's expected format
-  };
 
   const handleFormSubmit = async (values, { resetForm }) => {
     console.log("Form values:", values); // Log form values
     try {
       // Prepare the data according to the API schema
-      const activityData = {
-        title: values.title,
+      const ticketData = {
+        user_id: values.userId, // Ensure this matches the expected field in your API
         type: values.type,
-        from_date: formatDateTime(values.fromDate), // Format the date
-        to_date: formatDateTime(values.toDate), // Format the date
+        from_date: values.fromDate,
+        to_date: values.toDate,
         description: values.description,
       };
 
-      const createdActivity = await createActivity(activityData);
-      if (createdActivity) {
-        console.log("Activity created successfully:", createdActivity);
+      const createdTicket = await createTicket(ticketData);
+      if (createdTicket) {
+        console.log("Ticket created successfully:", createdTicket);
         resetForm(); // Reset form fields after successful submission
       } else {
-        console.error("Failed to create activity");
+        console.error("Failed to create ticket");
       }
     } catch (error) {
-      console.error("Error during activity creation:", error);
+      console.error("Error during ticket creation:", error);
     }
   };
 
   return (
     <Box m="20px">
-      <Header title="CREATE ACTIVITY" subtitle="Create a New Activity" />
+      <Header title="CREATE TICKET" subtitle="Create a New Ticket" />
 
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
-        validationSchema={activitySchema}
+        validationSchema={ticketSchema}
       >
         {({
           values,
@@ -65,15 +61,15 @@ const NewActivityForm = () => {
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
-                label="Title"
+                type="number"
+                label="User ID"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.title}
-                name="title"
+                value={values.userId}
+                name="userId"
                 color="secondary"
-                error={!!touched.title && !!errors.title}
-                helperText={touched.title && errors.title}
+                error={!!touched.userId && !!errors.userId}
+                helperText={touched.userId && errors.userId}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
@@ -135,7 +131,7 @@ const NewActivityForm = () => {
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New Activity
+                Create New Ticket
               </Button>
             </Box>
           </form>
@@ -146,21 +142,21 @@ const NewActivityForm = () => {
 };
 
 // Validation schema
-const activitySchema = yup.object().shape({
-  title: yup.string().required("required"),
-  type: yup.string().required("required"),
-  fromDate: yup.string().required("required"),
-  toDate: yup.string().required("required"),
-  description: yup.string().required("required"),
+const ticketSchema = yup.object().shape({
+  userId: yup.number().required("User ID is required"),
+  type: yup.string().required("Type is required"),
+  fromDate: yup.string().required("From Date is required"),
+  toDate: yup.string().required("To Date is required"),
+  description: yup.string().required("Description is required"),
 });
 
 // Initial form values
 const initialValues = {
-  title: "",
+  userId: "",
   type: "",
   fromDate: "",
   toDate: "",
   description: "",
 };
 
-export default NewActivityForm;
+export default NewTicketForm;

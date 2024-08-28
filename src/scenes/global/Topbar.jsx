@@ -7,6 +7,7 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../data/mockData"; // Import logoutUser
 
 const Topbar = () => {
   const theme = useTheme();
@@ -14,8 +15,11 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate("/");
+  const handleLogout = async () => {
+    const success = await logoutUser();
+    if (success) {
+      navigate("/");
+    }
   };
 
   return (

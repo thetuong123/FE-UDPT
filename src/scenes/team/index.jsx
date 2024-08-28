@@ -91,6 +91,8 @@ const Team = () => {
             variant="contained"
             color="info"
             onClick={() => handleViewClick(params.row.id)} // Trigger view dialog
+            sx={{ marginRight: 1 }}
+
           >
             View
           </Button>
@@ -244,6 +246,14 @@ const Team = () => {
             label="Full Name"
             name="full_name"
             value={selectedUser?.full_name || ''}
+            fullWidth
+            disabled
+          />
+          <TextField
+            margin="dense"
+            label="Citizen ID"
+            name="citizen_id"
+            value={selectedUser?.citizen_id || ''}
             fullWidth
             disabled
           />

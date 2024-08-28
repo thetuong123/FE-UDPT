@@ -3,55 +3,67 @@ import { Box, Button, useTheme, Dialog, DialogActions, DialogContent, DialogTitl
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { fetchTicketsData, updateTicket, fetchTicketById } from "../../data/mockData"; // Import the API functions
+import { fetchVouchersData, updateVoucher, fetchVoucherById } from "../../data/mockData"; // Import the API functions
 
-const ManageTickets = () => {
+const ManageVouchers = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
   const [viewOpen, setViewOpen] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
-      const ticketsData = await fetchTicketsData();
-      setData(ticketsData);
+      const vouchersData = await fetchVouchersData();
+      setData(vouchersData);
     };
 
     getData();
   }, []);
 
-  const handleStatusUpdate = async (ticket, status) => {
-    const updatedTicket = { ...ticket, status };
-    const updatedData = await updateTicket(ticket.id, updatedTicket);
+  const handleUpdate = async (updatedVoucher) => {
+    const updatedData = await updateVoucher(updatedVoucher.id, updatedVoucher);
     if (updatedData) {
-      setData(data.map((t) => (t.id === ticket.id ? updatedData : t)));
+      setData(data.map((voucher) => (voucher.id === updatedVoucher.id ? updatedData : voucher)));
+      setOpen(false);
     }
   };
 
   const handleViewClick = async (id) => {
-    const ticket = await fetchTicketById(id);
-    setSelectedTicket(ticket);
+    const voucher = await fetchVoucherById(id);
+    setSelectedVoucher(voucher);
     setViewOpen(true);
+  };
+
+  const handleEditClick = (voucher) => {
+    setSelectedVoucher(voucher);
+    setOpen(true);
+  };
+
+  const handleInputChange = (e) => {
+    setSelectedVoucher({
+      ...selectedVoucher,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "type",
+      field: "provider",
       headerName: "Type",
-      flex: 1,
-    },
-    {
-      field: "description",
-      headerName: "Description",
-      flex: 1,
-    },
-    {
-      field: "status",
-      headerName: "Status",
       flex: 0.5,
+    },
+    {
+        field: "description",
+        headerName: "Description",
+        flex: 1,
+      },
+    {
+      field: "require_point",
+      headerName: "Require Point",
+      flex: 1,
     },
     {
       field: "actions",
@@ -70,19 +82,11 @@ const ManageTickets = () => {
 
           <Button
             variant="contained"
-            color="success"
-            onClick={() => handleStatusUpdate(params.row, 'Approved')}
+            color="primary"
+            onClick={() => handleEditClick(params.row)}
             sx={{ marginRight: 1 }}
           >
-            Approve
-          </Button>
-
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => handleStatusUpdate(params.row, 'Denied')}
-          >
-            Deny
+            Edit
           </Button>
         </Box>
       ),
@@ -91,7 +95,7 @@ const ManageTickets = () => {
 
   return (
     <Box m="20px">
-      <Header title="TICKETS" subtitle="Managing Tickets" />
+      <Header title="VOUCHERS" subtitle="Managing Vouchers" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -124,31 +128,62 @@ const ManageTickets = () => {
         <DataGrid checkboxSelection rows={data} columns={columns} />
       </Box>
 
-      {/* Dialog for Viewing */}
-      <Dialog open={viewOpen} onClose={() => setViewOpen(false)}>
-        <DialogTitle>View Ticket</DialogTitle>
+      {/* Dialog for Editing */}
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Edit Voucher</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
             label="Type"
-            name="type"
-            value={selectedTicket?.type || ''}
+            name="provider"
+            value={selectedVoucher?.provider || ''}
+            onChange={handleInputChange}
             fullWidth
-            disabled
           />
           <TextField
             margin="dense"
-            label="From Date"
-            name="from_date"
-            value={selectedTicket?.from_date || ''}
+            label="Title"
+            name="title"
+            value={selectedVoucher?.title || ''}
+            onChange={handleInputChange}
             fullWidth
-            disabled
           />
           <TextField
             margin="dense"
-            label="To Date"
-            name="to_date"
-            value={selectedTicket?.to_date || ''}
+            label="Description"
+            name="description"
+            value={selectedVoucher?.description || ''}
+            onChange={handleInputChange}
+            fullWidth
+          />
+           <TextField
+            margin="dense"
+            label="Require Point"
+            name="require_point"
+            value={selectedVoucher?.require_point || ''}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={() => handleUpdate(selectedVoucher)} color="secondary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dialog for Viewing */}
+      <Dialog open={viewOpen} onClose={() => setViewOpen(false)}>
+        <DialogTitle>View Voucher</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            label="Type"
+            name="provider"
+            value={selectedVoucher?.provider || ''}
             fullWidth
             disabled
           />
@@ -156,7 +191,7 @@ const ManageTickets = () => {
             margin="dense"
             label="Title"
             name="title"
-            value={selectedTicket?.title || ''}
+            value={selectedVoucher?.title || ''}
             fullWidth
             disabled
           />
@@ -164,7 +199,16 @@ const ManageTickets = () => {
             margin="dense"
             label="Description"
             name="description"
-            value={selectedTicket?.description || ''}
+            value={selectedVoucher?.description || ''}
+            fullWidth
+            disabled
+          />
+          
+          <TextField
+            margin="dense"
+            label="Require Point"
+            name="require_point"
+            value={selectedVoucher?.require_point || ''}
             fullWidth
             disabled
           />
@@ -179,4 +223,4 @@ const ManageTickets = () => {
   );
 };
 
-export default ManageTickets;
+export default ManageVouchers;

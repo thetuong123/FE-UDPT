@@ -3,48 +3,47 @@ import { Box, Button, useTheme, Dialog, DialogActions, DialogContent, DialogTitl
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { fetchActivitiesData, updateActivity, fetchActivityById } from "../../data/mockData"; // Import the API functions
+import { fetchVoucherExchangesData, updateVoucherExchange, fetchVoucherExchangeById } from "../../data/mockData"; // Import the API functions
 
-const ManageActivities = () => {
+const ManageVoucherExchange = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [selectedExchange, setSelectedExchange] = useState(null);
   const [viewOpen, setViewOpen] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
-      const activitiesData = await fetchActivitiesData();
-      setData(activitiesData);
+      const voucherExchangesData = await fetchVoucherExchangesData();
+      setData(voucherExchangesData);
     };
 
     getData();
   }, []);
 
-
-  const handleUpdate = async (updatedActivity) => {
-    const updatedData = await updateActivity(updatedActivity.id, updatedActivity);
+  const handleUpdate = async (updatedExchange) => {
+    const updatedData = await updateVoucherExchange(updatedExchange.id, updatedExchange);
     if (updatedData) {
-      setData(data.map((activity) => (activity.id === updatedActivity.id ? updatedData : activity)));
+      setData(data.map((exchange) => (exchange.id === updatedExchange.id ? updatedData : exchange)));
       setOpen(false);
     }
   };
 
   const handleViewClick = async (id) => {
-    const activity = await fetchActivityById(id);
-    setSelectedActivity(activity);
+    const exchange = await fetchVoucherExchangeById(id);
+    setSelectedExchange(exchange);
     setViewOpen(true);
   };
 
-  const handleEditClick = (activity) => {
-    setSelectedActivity(activity);
+  const handleEditClick = (exchange) => {
+    setSelectedExchange(exchange);
     setOpen(true);
   };
 
   const handleInputChange = (e) => {
-    setSelectedActivity({
-      ...selectedActivity,
+    setSelectedExchange({
+      ...selectedExchange,
       [e.target.name]: e.target.value,
     });
   };
@@ -52,19 +51,24 @@ const ManageActivities = () => {
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "type",
-      headerName: "Type",
-      flex: 1,
-    },
-    {
-      field: "title",
-      headerName: "Title",
+      field: "voucher_title",
+      headerName: "Voucher Title",
       flex: 0.5,
     },
     {
-      field: "description",
-      headerName: "Description",
-      flex: 1,
+        field: "voucher_description",
+        headerName: "Description",
+        flex: 0.5,
+    },
+    {
+        field: "user_id",
+        headerName: "User ID",
+        flex: 0.5,
+    },
+    {
+      field: "point_used",
+      headerName: "Points",
+      flex: 0.5,
     },
     {
       field: "actions",
@@ -77,7 +81,6 @@ const ManageActivities = () => {
             color="info"
             onClick={() => handleViewClick(params.row.id)}
             sx={{ marginRight: 1 }}
-
           >
             View
           </Button>
@@ -97,7 +100,7 @@ const ManageActivities = () => {
 
   return (
     <Box m="20px">
-      <Header title="ACTIVITIES" subtitle="Managing Activities" />
+      <Header title="VOUCHER EXCHANGES" subtitle="Managing Voucher Exchanges" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -132,45 +135,29 @@ const ManageActivities = () => {
 
       {/* Dialog for Editing */}
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Edit Activity</DialogTitle>
+        <DialogTitle>Edit Voucher Exchange</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
-            label="Type"
-            name="type"
-            value={selectedActivity?.type || ''}
+            label="User ID"
+            name="user_id"
+            value={selectedExchange?.user_id || ''}
             onChange={handleInputChange}
             fullWidth
           />
           <TextField
             margin="dense"
-            label="From Date"
-            name="from_date"
-            value={selectedActivity?.from_date || ''}
+            label="Voucher ID"
+            name="voucher_id"
+            value={selectedExchange?.voucher_id || ''}
             onChange={handleInputChange}
             fullWidth
           />
           <TextField
             margin="dense"
-            label="To Date"
-            name="to_date"
-            value={selectedActivity?.to_date || ''}
-            onChange={handleInputChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Title"
-            name="title"
-            value={selectedActivity?.title || ''}
-            onChange={handleInputChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Description"
-            name="description"
-            value={selectedActivity?.description || ''}
+            label="Exchange Date"
+            name="exchange_date"
+            value={selectedExchange?.exchange_date || ''}
             onChange={handleInputChange}
             fullWidth
           />
@@ -179,7 +166,7 @@ const ManageActivities = () => {
           <Button onClick={() => setOpen(false)} color="secondary">
             Cancel
           </Button>
-          <Button onClick={() => handleUpdate(selectedActivity)} color="secondary">
+          <Button onClick={() => handleUpdate(selectedExchange)} color="secondary">
             Save
           </Button>
         </DialogActions>
@@ -187,45 +174,29 @@ const ManageActivities = () => {
 
       {/* Dialog for Viewing */}
       <Dialog open={viewOpen} onClose={() => setViewOpen(false)}>
-        <DialogTitle>View Activity</DialogTitle>
+        <DialogTitle>View Voucher Exchange</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
-            label="Type"
-            name="type"
-            value={selectedActivity?.type || ''}
+            label="User ID"
+            name="user_id"
+            value={selectedExchange?.user_id || ''}
             fullWidth
             disabled
           />
           <TextField
             margin="dense"
-            label="From Date"
-            name="from_date"
-            value={selectedActivity?.from_date || ''}
+            label="Points"
+            name="point_used"
+            value={selectedExchange?.point_used || ''}
             fullWidth
             disabled
           />
           <TextField
             margin="dense"
-            label="To Date"
-            name="to_date"
-            value={selectedActivity?.to_date || ''}
-            fullWidth
-            disabled
-          />
-          <TextField
-            margin="dense"
-            label="Title"
-            name="title"
-            value={selectedActivity?.title || ''}
-            fullWidth
-            disabled
-          />
-          <TextField
-            margin="dense"
-            label="Description"
-            name="description"
-            value={selectedActivity?.description || ''}
+            label="is_used"
+            name="is_used"
+            value={selectedExchange?.is_used || ''}
             fullWidth
             disabled
           />
@@ -240,4 +211,4 @@ const ManageActivities = () => {
   );
 };
 
-export default ManageActivities;
+export default ManageVoucherExchange;
