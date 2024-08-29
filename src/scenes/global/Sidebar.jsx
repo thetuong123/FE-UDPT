@@ -4,6 +4,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
+import ChangeCircleOutlined from "@mui/icons-material/ChangeCircleOutlined"
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import RequestPageOutlined from "@mui/icons-material/RequestPageOutlined";
@@ -109,7 +110,20 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
+            <Item
+              title="Change Password"
+              to="/admin/change_password"
+              icon={<ChangeCircleOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="My Request"
+              to="/admin/my_request"
+              icon={<ChangeCircleOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Typography
               variant="h6"
               color={colors.grey[300]}

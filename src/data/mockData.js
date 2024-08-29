@@ -42,8 +42,6 @@ export const loginUser = async (username, password) => {
 };
 
 //Logout
-// MockData.js
-
 export const logoutUser = async () => {
   try {
     // Retrieve the access token from local storage
@@ -76,10 +74,39 @@ export const logoutUser = async () => {
   }
 };
 
+//Change Password
+export const changePassword = async (oldPassword, newPassword) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
 
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+    const response = await fetch(`${BASE_URL}/${API_VER}/users/change-password`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, // Include the token in the header
+      },
+      body: JSON.stringify({
+        old_password: oldPassword,
+        new_password: newPassword,
+      }),
+    });
 
-//User
-//User Info
+    if (!response.ok) {
+      throw new Error('Failed to change password');
+    }
+
+    const result = await response.json();
+    return result; // Return the response
+  } catch (error) {
+    console.error('Error changing password:', error);
+    return null; // Return null in case of error
+  }
+};
+
+//Dashboard
 export const fetchUserInfo = async () => {
   const token = localStorage.getItem('accessToken');  // Retrieve the token directly as a string
 
@@ -110,6 +137,68 @@ export const fetchUserInfo = async () => {
     return null;
   }
 };
+
+//Get my Request
+export const getMyTickets = async () => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/tickets/me/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to get tickets');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error getting tickets:', error);
+    return null;
+  }
+};
+
+//Get my ticket
+export const fetchUserTickets = async (page = 1, limit = 10) => {
+  const token = localStorage.getItem('accessToken');  // Lấy token từ localStorage
+
+  if (!token) {
+    throw new Error('No access token found. Please log in first.');
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/tickets/me/?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,  // Đính kèm token vào header
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text(); // Lấy thông tin lỗi dưới dạng text
+      console.error('Error response:', errorResponse);
+      throw new Error('Failed to fetch user tickets');
+    }
+
+    const data = await response.json();
+    console.log('User tickets response data:', data);  // Log dữ liệu để debug
+    return data;
+  } catch (error) {
+    console.error('Error fetching user tickets:', error);
+    return null;
+  }
+};
+
 
 //MANAGE TEAM
 //View Team
@@ -287,8 +376,6 @@ export const fetchActivitiesData = async (page = 1, limit = 10) => {
     return [];
   }
 };
-
-// Create a new activity
 export const createActivity = async (activityData) => {
   try {
     // Retrieve the access token from local storage
@@ -301,14 +388,15 @@ export const createActivity = async (activityData) => {
     const response = await fetch(`${BASE_URL}/${API_VER}/activities/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(activityData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create activity');
+      const errorText = await response.text(); // Lấy thông tin lỗi từ response
+      throw new Error(`Failed to create activity: ${errorText}`);
     }
 
     return await response.json();
@@ -317,7 +405,6 @@ export const createActivity = async (activityData) => {
     return null;
   }
 };
-
 
 // Update an activity by ID// Update an activity by ID
 export const updateActivity = async (activityId, updatedData) => {

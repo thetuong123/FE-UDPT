@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import UpdateOutlined from "@mui/icons-material/UpdateOutlined";
+import ChangeCircleOutlined from "@mui/icons-material/ChangeCircleOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AddOutlined from "@mui/icons-material/AddOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -109,6 +110,14 @@ const Sidebar1 = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Change Password"
+              to="/employee/change_password"
+              icon={<ChangeCircleOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
 
             <Typography
               variant="h6"
@@ -127,7 +136,7 @@ const Sidebar1 = () => {
             <Item
               title="Update Profile"
               to="/employee/update_profile"
-              icon={<CalendarTodayOutlinedIcon />}
+              icon={<UpdateOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -142,14 +151,14 @@ const Sidebar1 = () => {
             <Item
               title="Add Request"
               to="/employee/add_request"
-              icon={<PeopleOutlinedIcon />}
+              icon={<AddOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Add Request"
-              to="/admin/add_request"
-              icon={<AddOutlined />}
+              title="My Request"
+              to="/employee/my_request"
+              icon={<ChangeCircleOutlined />}
               selected={selected}
               setSelected={setSelected}
             />

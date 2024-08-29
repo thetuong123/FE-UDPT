@@ -6,6 +6,8 @@ import Login from "./scenes/login";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
+import ChangePassword from "./scenes/change_password";
+import MyRequest from "./scenes/my_request";
 import Team from "./scenes/team";
 import Activities from "./scenes/activities";
 import Voucher from "./scenes/voucher";
@@ -16,6 +18,7 @@ import Request from "./scenes/request";
 import Sidebar1 from "./scenes/global/Sidebar1";
 import Calendar from "./scenes/calendar/calendar";
 import AddRequest from "./scenes/add_request";
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -48,6 +51,7 @@ function App() {
 
               {/* Các route dành cho admin */}
               <Route path="/admin" element={<Dashboard />} />
+              <Route path="/admin/change_password" element={<ChangePassword />} />
               <Route path="/admin/team" element={<Team />} />
               <Route path="/admin/activities" element={<Activities />} />
               <Route path="/admin/add_user" element={<AddUser />} />
@@ -55,11 +59,16 @@ function App() {
               <Route path="/admin/request" element={<Request />} />
               <Route path="/admin/voucher" element={<Voucher />} />
               <Route path="/admin/exchange" element={<Exchange />} />
+              <Route path="/admin/my_request" element={<MyRequest />} />
 
               {/* Các route dành cho employee */}
               <Route path="/employee" element={<Dashboard />} />
+              <Route path="/employee/change_password" element={<ChangePassword />} />
               <Route path="/employee/calendar" element={<Calendar />} />
               <Route path="/employee/add_request" element={<AddRequest />} />
+              <Route path="/employee/add_activity" element={<AddActivity />} />
+              <Route path="/employee/my_request" element={<MyRequest />} />
+
 
             </Routes>
           </main>

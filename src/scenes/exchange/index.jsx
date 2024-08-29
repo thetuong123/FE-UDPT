@@ -9,7 +9,6 @@ const ManageVoucherExchange = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
   const [selectedExchange, setSelectedExchange] = useState(null);
   const [viewOpen, setViewOpen] = useState(false);
 
@@ -22,13 +21,6 @@ const ManageVoucherExchange = () => {
     getData();
   }, []);
 
-  const handleUpdate = async (updatedExchange) => {
-    const updatedData = await updateVoucherExchange(updatedExchange.id, updatedExchange);
-    if (updatedData) {
-      setData(data.map((exchange) => (exchange.id === updatedExchange.id ? updatedData : exchange)));
-      setOpen(false);
-    }
-  };
 
   const handleViewClick = async (id) => {
     const exchange = await fetchVoucherExchangeById(id);
@@ -36,10 +28,6 @@ const ManageVoucherExchange = () => {
     setViewOpen(true);
   };
 
-  const handleEditClick = (exchange) => {
-    setSelectedExchange(exchange);
-    setOpen(true);
-  };
 
   const handleInputChange = (e) => {
     setSelectedExchange({
@@ -85,14 +73,6 @@ const ManageVoucherExchange = () => {
             View
           </Button>
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleEditClick(params.row)}
-            sx={{ marginRight: 1 }}
-          >
-            Edit
-          </Button>
         </Box>
       ),
     },
@@ -132,45 +112,6 @@ const ManageVoucherExchange = () => {
       >
         <DataGrid checkboxSelection rows={data} columns={columns} />
       </Box>
-
-      {/* Dialog for Editing */}
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Edit Voucher Exchange</DialogTitle>
-        <DialogContent>
-          <TextField
-            margin="dense"
-            label="User ID"
-            name="user_id"
-            value={selectedExchange?.user_id || ''}
-            onChange={handleInputChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Voucher ID"
-            name="voucher_id"
-            value={selectedExchange?.voucher_id || ''}
-            onChange={handleInputChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Exchange Date"
-            name="exchange_date"
-            value={selectedExchange?.exchange_date || ''}
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={() => handleUpdate(selectedExchange)} color="secondary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       {/* Dialog for Viewing */}
       <Dialog open={viewOpen} onClose={() => setViewOpen(false)}>
