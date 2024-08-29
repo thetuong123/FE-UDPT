@@ -582,6 +582,37 @@ export const fetchTicketById = async (ticketId) => {
   }
 };
 
+export const fetchTicketsByUserId = async (userId, page = 1, limit = 10) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/tickets/users/${userId}?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to fetch tickets: ${errorText}`);
+    }
+
+    const result = await response.json();
+    return result.data; // Assuming the API response has a 'data' key
+  } catch (error) {
+    console.error('Error fetching tickets data:', error);
+    return [];
+  }
+};
+
+
 
 //Voucher
 // View all vouchers

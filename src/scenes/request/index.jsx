@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, useTheme, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Box, Button, TextField, useTheme, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { fetchTicketsData, updateTicket, fetchTicketById } from "../../data/mockData"; // Import the API functions
+import { fetchTicketsData, updateTicket, fetchTicketById, fetchTicketsByUserId } from "../../data/mockData"; // Import the API functions
 
 const ManageTickets = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState(null);
   const [viewOpen, setViewOpen] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [userId, setUserId] = useState(""); // State for user ID
+  const [userData, setUserData] = useState([]); // State for storing fetched user data
 
   useEffect(() => {
     const getData = async () => {
@@ -36,6 +37,12 @@ const ManageTickets = () => {
     setViewOpen(true);
   };
 
+  const handleUserSearch = async () => {
+    if (userId) {
+      const result = await fetchTicketsByUserId(userId);
+      setUserData(result); // Store the result in userData state
+    }
+  };
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -92,6 +99,21 @@ const ManageTickets = () => {
   return (
     <Box m="20px">
       <Header title="TICKETS" subtitle="Managing Tickets" />
+
+      {/* User ID Search */}
+      <Box display="flex" mb={2}>
+        <TextField
+          label="User ID"
+          variant="outlined"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          sx={{ mr: 2 }}
+        />
+        <Button variant="contained" color="secondary" onClick={handleUserSearch}>
+          Search
+        </Button>
+      </Box>
+
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -121,7 +143,7 @@ const ManageTickets = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={data} columns={columns} />
+        <DataGrid checkboxSelection rows={userData.length > 0 ? userData : data} columns={columns} />
       </Box>
 
       {/* Dialog for Viewing */}
