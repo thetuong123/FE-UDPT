@@ -124,6 +124,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="My Exchange"
+              to="/admin/my_exchange"
+              icon={<ChangeCircleOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -202,6 +209,13 @@ const Sidebar = () => {
               title="Manage Exchange"
               to="/admin/exchange"
               icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Add Voucher"
+              to="/admin/add_voucher"
+              icon={<AddOutlined />}
               selected={selected}
               setSelected={setSelected}
             />

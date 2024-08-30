@@ -3,7 +3,7 @@ import { Box, Button, useTheme, Dialog, DialogActions, DialogContent, DialogTitl
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { fetchVoucherExchangesData, updateVoucherExchange, fetchVoucherExchangeById } from "../../data/mockData"; // Import the API functions
+import { fetchVoucherExchangesData, fetchVoucherExchangeById } from "../../data/mockData"; // Import the API functions
 
 const ManageVoucherExchange = () => {
   const theme = useTheme();
@@ -26,14 +26,6 @@ const ManageVoucherExchange = () => {
     const exchange = await fetchVoucherExchangeById(id);
     setSelectedExchange(exchange);
     setViewOpen(true);
-  };
-
-
-  const handleInputChange = (e) => {
-    setSelectedExchange({
-      ...selectedExchange,
-      [e.target.name]: e.target.value,
-    });
   };
 
   const columns = [
@@ -119,17 +111,17 @@ const ManageVoucherExchange = () => {
         <DialogContent>
           <TextField
             margin="dense"
-            label="User ID"
-            name="user_id"
-            value={selectedExchange?.user_id || ''}
+            label="Voucher Title"
+            name="voucher_title"
+            value={selectedExchange?.voucher_title || ''}
             fullWidth
             disabled
           />
           <TextField
             margin="dense"
-            label="Points"
-            name="point_used"
-            value={selectedExchange?.point_used || ''}
+            label="Description"
+            name="voucher_description"
+            value={selectedExchange?.voucher_description || ''}
             fullWidth
             disabled
           />

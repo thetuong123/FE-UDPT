@@ -8,6 +8,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import UpdateOutlined from "@mui/icons-material/UpdateOutlined";
 import ChangeCircleOutlined from "@mui/icons-material/ChangeCircleOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import CheckOutlined from "@mui/icons-material/CheckOutlined";
 import AddOutlined from "@mui/icons-material/AddOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
@@ -134,6 +135,13 @@ const Sidebar1 = () => {
               setSelected={setSelected}
             />
             <Item
+              title="Check in-out"
+              to="/employee/check"
+              icon={<CheckOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Update Profile"
               to="/employee/update_profile"
               icon={<UpdateOutlined />}
@@ -158,6 +166,13 @@ const Sidebar1 = () => {
             <Item
               title="My Request"
               to="/employee/my_request"
+              icon={<ChangeCircleOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="My Exchange"
+              to="/employee/my_exchange"
               icon={<ChangeCircleOutlined />}
               selected={selected}
               setSelected={setSelected}

@@ -198,6 +198,38 @@ export const fetchUserTickets = async (page = 1, limit = 10) => {
     return null;
   }
 };
+//Get my exchange
+export const fetchUserExchange = async (page = 1, limit = 10) => {
+  const token = localStorage.getItem('accessToken');  // Lấy token từ localStorage
+
+  if (!token) {
+    throw new Error('No access token found. Please log in first.');
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher_exchanges/me/?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,  // Đính kèm token vào header
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text(); // Lấy thông tin lỗi dưới dạng text
+      console.error('Error response:', errorResponse);
+      throw new Error('Failed to fetch user tickets');
+    }
+
+    const data = await response.json();
+    console.log('User tickets response data:', data);  // Log dữ liệu để debug
+    return data;
+  } catch (error) {
+    console.error('Error fetching user tickets:', error);
+    return null;
+  }
+};
+
 
 
 //MANAGE TEAM
@@ -843,5 +875,181 @@ export const fetchVoucherExchangeById = async (voucherExchangeId) => {
   } catch (error) {
     console.error('Error fetching voucher exchange:', error);
     return null;
+  }
+};
+
+export const checkIn = async () => {
+  const token = localStorage.getItem('accessToken'); // Retrieve the access token from localStorage
+
+  if (!token) {
+    throw new Error('No access token found. Please log in first.');
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/check-in`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text();
+      console.error('Error response:', errorResponse);
+      throw new Error('Failed to check in.');
+    }
+
+    const data = await response.json();
+    console.log('Check-in response data:', data);
+    return data;
+  } catch (error) {
+    console.error('Error during check-in:', error);
+    return null;
+  }
+};
+
+export const checkOut = async () => {
+  const token = localStorage.getItem('accessToken'); // Retrieve the access token from localStorage
+
+  if (!token) {
+    throw new Error('No access token found. Please log in first.');
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/check-out`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text();
+      console.error('Error response:', errorResponse);
+      throw new Error('Failed to check out.');
+    }
+
+    const data = await response.json();
+    console.log('Check-out response data:', data);
+    return data;
+  } catch (error) {
+    console.error('Error during check-out:', error);
+    return null;
+  }
+};
+
+export const fetchWorkLogs = async (startDate, endDate) => {
+  const token = localStorage.getItem('accessToken'); // Lấy token từ localStorage
+
+  if (!token) {
+    throw new Error('No access token found. Please log in first.');
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/me/?start_date=${startDate}&end_date=${endDate}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,  // Đính kèm token vào header
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text(); // Lấy thông tin lỗi dưới dạng text
+      console.error('Error response:', errorResponse);
+      throw new Error('Failed to fetch work logs');
+    }
+
+    const data = await response.json();
+    console.log('Work logs response data:', data); // Log dữ liệu để debug
+    return data;
+  } catch (error) {
+    console.error('Error fetching work logs:', error);
+    return null;
+  }
+};
+
+//Point transfer
+
+export const createPointTransfer = async (PointTransferData) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/points-transfers/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+      },
+      body: JSON.stringify(PointTransferData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create voucher exchange');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating voucher exchange:', error);
+    return null;
+  }
+};
+
+
+export const fetchPointSent= async (page = 1, limit = 10) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/points-transfers/sent/?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching voucher exchanges data:', error);
+    return [];
+  }
+};
+
+
+export const fetchPointReceived= async (page = 1, limit = 10) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/points-transfers/received/?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching voucher exchanges data:', error);
+    return [];
   }
 };
