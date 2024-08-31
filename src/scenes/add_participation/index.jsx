@@ -3,19 +3,19 @@ import { Box, Button, useTheme, Dialog, DialogActions, DialogContent, DialogTitl
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { fetchVoucherExchangesData, fetchVoucherExchangeById } from "../../data/mockData"; // Import the API functions
+import { fetchActivitiesData, fetchActivityById ,createParticipation} from "../../data/mockData"; // Import the API functions
 
-const ManageVoucherExchange = () => {
+const ManageActivities = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
-  const [selectedExchange, setSelectedExchange] = useState(null);
+  const [selectedActivity, setSelectedActivity] = useState(null);
   const [viewOpen, setViewOpen] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
-      const voucherExchangesData = await fetchVoucherExchangesData();
-      setData(voucherExchangesData);
+      const activitiesData = await fetchActivitiesData();
+      setData(activitiesData);
     };
 
     getData();
@@ -23,32 +23,42 @@ const ManageVoucherExchange = () => {
 
 
   const handleViewClick = async (id) => {
-    const exchange = await fetchVoucherExchangeById(id);
-    setSelectedExchange(exchange);
+    const activity = await fetchActivityById(id);
+    setSelectedActivity(activity);
     setViewOpen(true);
   };
 
+  const handleJoinClick = async (activityId) => {
+    const participationData = {
+      activity_id: activityId,
+    };
+  
+    const response = await createParticipation(participationData);
+    
+    if (response) {
+      console.log("Successfully joined the activity!");
+      // Optionally, you can refresh the activities list or display a success message
+    } else {
+      console.error("Failed to join the activity.");
+    }
+  };
+  
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "user_id",
-      headerName: "User ID",
+      field: "type",
+      headerName: "Type",
+      flex: 1,
+    },
+    {
+      field: "title",
+      headerName: "Title",
       flex: 0.5,
     },
     {
-      field: "voucher_title",
-      headerName: "Voucher Title",
-      flex: 0.5,
-    },
-    {
-        field: "voucher_description",
-        headerName: "Description",
-        flex: 0.5,
-    },
-    {
-      field: "point_used",
-      headerName: "Points",
-      flex: 0.5,
+      field: "description",
+      headerName: "Description",
+      flex: 1,
     },
     {
       field: "actions",
@@ -61,9 +71,18 @@ const ManageVoucherExchange = () => {
             color="info"
             onClick={() => handleViewClick(params.row.id)}
             sx={{ marginRight: 1 }}
+
           >
             View
           </Button>
+
+          <Button
+          variant="contained"
+          color="success"
+          onClick={() => handleJoinClick(params.row.id)} // Add this line
+        >
+          Join
+        </Button>
 
         </Box>
       ),
@@ -72,7 +91,7 @@ const ManageVoucherExchange = () => {
 
   return (
     <Box m="20px">
-      <Header title="VOUCHER EXCHANGES" subtitle="Managing Voucher Exchanges" />
+      <Header title="ACTIVITIES" subtitle="Managing Activities" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -105,31 +124,48 @@ const ManageVoucherExchange = () => {
         <DataGrid checkboxSelection rows={data} columns={columns} />
       </Box>
 
+
       {/* Dialog for Viewing */}
       <Dialog open={viewOpen} onClose={() => setViewOpen(false)}>
-        <DialogTitle>View Voucher Exchange</DialogTitle>
+        <DialogTitle>View Activity</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
-            label="Voucher Title"
-            name="voucher_title"
-            value={selectedExchange?.voucher_title || ''}
+            label="Type"
+            name="type"
+            value={selectedActivity?.type || ''}
+            fullWidth
+            disabled
+          />
+          <TextField
+            margin="dense"
+            label="From Date"
+            name="from_date"
+            value={selectedActivity?.from_date || ''}
+            fullWidth
+            disabled
+          />
+          <TextField
+            margin="dense"
+            label="To Date"
+            name="to_date"
+            value={selectedActivity?.to_date || ''}
+            fullWidth
+            disabled
+          />
+          <TextField
+            margin="dense"
+            label="Title"
+            name="title"
+            value={selectedActivity?.title || ''}
             fullWidth
             disabled
           />
           <TextField
             margin="dense"
             label="Description"
-            name="voucher_description"
-            value={selectedExchange?.voucher_description || ''}
-            fullWidth
-            disabled
-          />
-          <TextField
-            margin="dense"
-            label="is_used"
-            name="is_used"
-            value={selectedExchange?.is_used || ''}
+            name="description"
+            value={selectedActivity?.description || ''}
             fullWidth
             disabled
           />
@@ -144,4 +180,4 @@ const ManageVoucherExchange = () => {
   );
 };
 
-export default ManageVoucherExchange;
+export default ManageActivities;

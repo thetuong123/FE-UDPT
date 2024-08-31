@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 const CreatePointTransfer = () => {
   const [formData, setFormData] = useState({
     points: '',
-    receiverId: '',
+    to_user_id: '',
     description: '',
   });
   const [error, setError] = useState(null);
@@ -54,7 +54,7 @@ const CreatePointTransfer = () => {
       border={`1px solid ${theme.palette.primary.main}`} // Add border color
     >
       <Typography variant="h4" mb={3} color={theme.palette.primary.dark}>
-        Create Point Transfer
+        Add Point Transfer
       </Typography>
 
       <TextField
@@ -69,6 +69,9 @@ const CreatePointTransfer = () => {
         InputLabelProps={{
           style: { color: theme.palette.primary.main }, // Change label color
         }}
+        InputProps={{
+            style: { color: '#000' }, // Change text color to black
+          }}
         sx={{
           backgroundColor: '#f0f0f0', // Light grey input background
           borderRadius: '5px',
@@ -77,8 +80,8 @@ const CreatePointTransfer = () => {
 
       <TextField
         label="Receiver ID"
-        name="receiverId"
-        value={formData.receiverId}
+        name="to_user_id"
+        value={formData.to_user_id}
         onChange={handleChange}
         margin="normal"
         fullWidth
@@ -86,6 +89,9 @@ const CreatePointTransfer = () => {
         InputLabelProps={{
           style: { color: theme.palette.primary.main },
         }}
+        InputProps={{
+            style: { color: '#000' }, // Change text color to black
+          }}
         sx={{
           backgroundColor: '#f0f0f0',
           borderRadius: '5px',
@@ -103,6 +109,9 @@ const CreatePointTransfer = () => {
         InputLabelProps={{
           style: { color: theme.palette.primary.main },
         }}
+        InputProps={{
+            style: { color: '#000' }, // Change text color to black
+          }}
         sx={{
           backgroundColor: '#f0f0f0',
           borderRadius: '5px',
@@ -128,7 +137,7 @@ const CreatePointTransfer = () => {
           },
         }}
       >
-        Create Point Transfer
+        Add Point Transfer
       </Button>
     </Box>
   );

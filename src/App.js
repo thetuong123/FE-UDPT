@@ -9,20 +9,25 @@ import Dashboard from "./scenes/dashboard";
 import ChangePassword from "./scenes/change_password";
 import MyRequest from "./scenes/my_request";
 import MyExchange from "./scenes/my_exchange";
+import MyParticipation from "./scenes/my_participation";
 import Team from "./scenes/team";
 import Activities from "./scenes/activities";
 import PointTransfer from "./scenes/point_transfer";
 import Voucher from "./scenes/voucher";
 import Exchange from "./scenes/exchange";
+import WorkLog from "./scenes/work_log";
 import AddUser from "./scenes/add_user";
 import AddActivity from "./scenes/add_activity";
 import AddVoucher from "./scenes/add_voucher";
+import AddPoinTrasnfer from "./scenes/add_point_transfer";
 import Request from "./scenes/request";
 import Sidebar1 from "./scenes/global/Sidebar1";
 import Calendar from "./scenes/calendar/calendar";
 import AddRequest from "./scenes/add_request";
-import Check from "./scenes/check_in-out";
+import AddExchange from "./scenes/add_exchange";
 
+import Check from "./scenes/check_in-out";
+import AddParticipation from "./scenes/add_participation";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -65,8 +70,10 @@ function App() {
               <Route path="/admin/add_voucher" element={<AddVoucher />} />
               <Route path="/admin/exchange" element={<Exchange />} />
               <Route path="/admin/point_transfer" element={<PointTransfer />} />
+              <Route path="/admin/add_point_transfer" element={<AddPoinTrasnfer />} />
               <Route path="/admin/my_request" element={<MyRequest />} />
               <Route path="/admin/my_exchange" element={<MyExchange />} />
+              <Route path="/admin/work_log" element={<WorkLog />} />
 
               {/* Các route dành cho employee */}
               <Route path="/employee" element={<Dashboard />} />
@@ -76,7 +83,10 @@ function App() {
               <Route path="/employee/add_activity" element={<AddActivity />} />
               <Route path="/employee/my_request" element={<MyRequest />} />
               <Route path="/employee/my_exchange" element={<MyExchange />} />
+              <Route path="/employee/my_participation" element={<MyParticipation />} />
               <Route path="/employee/check" element={<Check />} />
+              <Route path="/employee/participation" element={<AddParticipation />} />
+              <Route path="/employee/add_exchange" element={<AddExchange />} />
 
 
             </Routes>

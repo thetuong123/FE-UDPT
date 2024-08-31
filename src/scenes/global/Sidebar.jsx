@@ -190,7 +190,20 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Work_log
+            </Typography>
+            <Item
+              title="Manage Work Log"
+              to="/admin/work_log"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -215,6 +228,28 @@ const Sidebar = () => {
             <Item
               title="Add Voucher"
               to="/admin/add_voucher"
+              icon={<AddOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Point Transfer
+            </Typography>
+            <Item
+              title="Manage Point Transfer"
+              to="/admin/point_transfer"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Add Activity"
+              to="/admin/add_point_transfer"
               icon={<AddOutlined />}
               selected={selected}
               setSelected={setSelected}

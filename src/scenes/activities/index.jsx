@@ -3,7 +3,7 @@ import { Box, Button, useTheme, Dialog, DialogActions, DialogContent, DialogTitl
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { fetchActivitiesData, updateActivity, fetchActivityById } from "../../data/mockData"; // Import the API functions
+import { fetchActivitiesData, updateActivity, fetchActivityById, fetchList } from "../../data/mockData"; // Import the fetchList function
 
 const ManageActivities = () => {
   const theme = useTheme();
@@ -12,6 +12,8 @@ const ManageActivities = () => {
   const [open, setOpen] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [viewOpen, setViewOpen] = useState(false);
+  const [listOpen, setListOpen] = useState(false); // State to manage the list dialog
+  const [participants, setParticipants] = useState([]); // State to store participant data
 
   useEffect(() => {
     const getData = async () => {
@@ -21,7 +23,6 @@ const ManageActivities = () => {
 
     getData();
   }, []);
-
 
   const handleUpdate = async (updatedActivity) => {
     const updatedData = await updateActivity(updatedActivity.id, updatedActivity);
@@ -40,6 +41,14 @@ const ManageActivities = () => {
   const handleEditClick = (activity) => {
     setSelectedActivity(activity);
     setOpen(true);
+  };
+
+  const handleListClick = async (activityId) => {
+    const participantsData = await fetchList(activityId);
+    if (participantsData) {
+      setParticipants(participantsData.data); // Assuming `data` is the key where participants are stored in the API response
+      setListOpen(true);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -77,7 +86,6 @@ const ManageActivities = () => {
             color="info"
             onClick={() => handleViewClick(params.row.id)}
             sx={{ marginRight: 1 }}
-
           >
             View
           </Button>
@@ -89,6 +97,14 @@ const ManageActivities = () => {
             sx={{ marginRight: 1 }}
           >
             Edit
+          </Button>
+
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleListClick(params.row.id)} // Trigger the fetchList function
+          >
+            List
           </Button>
         </Box>
       ),
@@ -232,6 +248,32 @@ const ManageActivities = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setViewOpen(false)} color="secondary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dialog for Listing Participants */}
+      <Dialog open={listOpen} onClose={() => setListOpen(false)}>
+        <DialogTitle>Participants</DialogTitle>
+        <DialogContent>
+          {participants.length > 0 ? (
+            participants.map((participant, index) => (
+              <Box key={index} mb={2}>
+                <TextField
+                  label="User ID"
+                  value={participant.user_id || ''}
+                  fullWidth
+                  disabled
+                />
+              </Box>
+            ))
+          ) : (
+            <Box>No participants found.</Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setListOpen(false)} color="secondary">
             Close
           </Button>
         </DialogActions>

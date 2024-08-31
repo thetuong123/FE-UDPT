@@ -1,4 +1,8 @@
 /*
+//File ENV
+REACT_APP_BASE_URL=https://udpt-be.onrender.com
+REACT_APP_API_VER=api/v1
+// 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_VER = process.env.REACT_APP_API_VER;
 */
@@ -229,7 +233,40 @@ export const fetchUserExchange = async (page = 1, limit = 10) => {
     return null;
   }
 };
+//my participation
+// mockData.js
 
+// Fetch user's activity participations
+export const fetchUserParticipations = async (page = 1, limit = 10) => {
+  const token = localStorage.getItem('accessToken');  // Get token from localStorage
+
+  if (!token) {
+    throw new Error('No access token found. Please log in first.');
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/activity_participations/me?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,  // Attach token to the header
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text(); // Get error as text
+      console.error('Error response:', errorResponse);
+      throw new Error('Failed to fetch user participations');
+    }
+
+    const data = await response.json();
+    console.log('User participations response data:', data);  // Log data for debugging
+    return data;
+  } catch (error) {
+    console.error('Error fetching user participations:', error);
+    return null;
+  }
+};
 
 
 //MANAGE TEAM
@@ -939,7 +976,39 @@ export const checkOut = async () => {
     return null;
   }
 };
+export const fetchWorkLogsData = async (page = 1, limit = 10, startDate, endDate) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
 
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    // Format lại startDate và endDate để phù hợp với định dạng của API
+    const formattedStartDate = startDate.replace(/:/g, "%3A");
+    const formattedEndDate = endDate.replace(/:/g, "%3A");
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/?page=${page}&limit=${limit}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to fetch work logs: ${errorText}`);
+    }
+
+    const result = await response.json();
+    console.log('API Response:', result);
+    return result.data; // Assuming the API response has a 'data' key
+  } catch (error) {
+    console.error('Error fetching work logs data:', error);
+    return [];
+  }
+};
 export const fetchWorkLogs = async (startDate, endDate) => {
   const token = localStorage.getItem('accessToken'); // Lấy token từ localStorage
 
@@ -1051,5 +1120,119 @@ export const fetchPointReceived= async (page = 1, limit = 10) => {
   } catch (error) {
     console.error('Error fetching voucher exchanges data:', error);
     return [];
+  }
+};
+
+
+export const createParticipation = async (ParticipationData) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/activity_participations/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+      },
+      body: JSON.stringify(ParticipationData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create activity participation');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating activity participation:', error);
+    return null;
+  }
+};
+export const fetchList = async (activityId, page = 1, limit = 10) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/activity_participations/?activity_id=${activityId}&page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'accept': 'application/json',
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch activity data');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching activity:', error);
+    return null;
+  }
+};
+
+
+export const createExchange = async (ExchangeData) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher_exchanges/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+      },
+      body: JSON.stringify(ExchangeData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to exchange voucher');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error exchange voucher:', error);
+    return null;
+  }
+};
+export const exchangeVoucher = async (ExchangeData) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher_exchanges/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+      },
+      body: JSON.stringify(ExchangeData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create voucher');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating voucher:', error);
+    return null;
   }
 };

@@ -1,20 +1,22 @@
+// UserParticipationsDashboard.js
+
 import React, { useEffect, useState } from 'react';
-import { fetchUserExchange } from '../../data/mockData'; // Adjust the import path based on your project structure
+import { fetchUserParticipations } from '../../data/mockData'; // Adjust the import path based on your project structure
 import { Box, Typography, CircularProgress, Grid, Paper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-const UserExchangeDashboard = () => {
-  const [exchanges, setExchanges] = useState([]);
+const UserParticipationsDashboard = () => {
+  const [participations, setParticipations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const theme = useTheme();
 
   useEffect(() => {
-    const getExchanges = async () => {
+    const getParticipations = async () => {
       try {
-        const data = await fetchUserExchange(); // Fetch exchanges data using your API call
+        const data = await fetchUserParticipations(); // Fetch participations data using your API call
         if (data && data.data) {
-          setExchanges(data.data); // Assuming the exchange data is in data.data array
+          setParticipations(data.data); // Assuming the participation data is in data.data array
         }
       } catch (err) {
         setError(err.message);
@@ -23,7 +25,7 @@ const UserExchangeDashboard = () => {
       }
     };
 
-    getExchanges();
+    getParticipations();
   }, []);
 
   if (loading) {
@@ -59,24 +61,23 @@ const UserExchangeDashboard = () => {
   return (
     <Box m="20px">
       <Typography variant="h4" mb={2} color="#48D1CC">
-        User Exchanges
+        User Participations
       </Typography>
 
-      {exchanges.length === 0 ? (
-        <Typography variant="h6" color="white">No exchanges available</Typography>
+      {participations.length === 0 ? (
+        <Typography variant="h6" color="black">No participations available</Typography>
       ) : (
         <Grid container spacing={3}>
-          {exchanges.map((exchange) => (
-            <Grid item xs={12} md={6} lg={4} key={exchange.id}>
+          {participations.map((participation) => (
+            <Grid item xs={12} md={6} lg={4} key={participation.id}>
               <Paper elevation={3} sx={{ p: 3, bgcolor: "#f5f5f5" }}>
                 <Typography variant="h6" mb={2} color="black">
-                  Exchange ID: {exchange.id}
+                  Participation ID: {participation.id}
                 </Typography>
-                <Typography variant="body1" color="black"><strong>Voucher Title:</strong> {exchange.voucher_title}</Typography>
-                <Typography variant="body1" color="black"><strong>Description:</strong> {exchange.voucher_description}</Typography>
-                <Typography variant="body1" color="black"><strong>Points Used:</strong> {exchange.point_used}</Typography>
-                <Typography variant="body1" color="black"><strong>Is Used:</strong> {exchange.is_used ? 'Yes' : 'No'}</Typography>
-                <Typography variant="body1" color="black"><strong>Created At:</strong> {new Date(exchange.created_at).toLocaleString()}</Typography>
+                <Typography variant="body1" color="black"><strong>Activity ID:</strong> {participation.activity_id}</Typography>
+                <Typography variant="body1" color="black"><strong>User ID:</strong> {participation.user_id}</Typography>
+                <Typography variant="body1" color="black"><strong>Activity Points:</strong> {participation.activity_points}</Typography>
+                <Typography variant="body1" color="black"><strong>Created At:</strong> {new Date(participation.created_at).toLocaleString()}</Typography>
               </Paper>
             </Grid>
           ))}
@@ -86,4 +87,4 @@ const UserExchangeDashboard = () => {
   );
 };
 
-export default UserExchangeDashboard;
+export default UserParticipationsDashboard;

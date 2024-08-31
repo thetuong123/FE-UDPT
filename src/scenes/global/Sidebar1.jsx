@@ -11,6 +11,12 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import CheckOutlined from "@mui/icons-material/CheckOutlined";
 import AddOutlined from "@mui/icons-material/AddOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import RequestPageOutlined from "@mui/icons-material/RequestPageOutlined";
+import OutboundOutlined from "@mui/icons-material/OutboundOutlined";
+import OutputOutlined from "@mui/icons-material/OutputOutlined";
+import UploadTwoTone from "@mui/icons-material/LocalActivityOutlined";
+import CurrencyExchange from "@mui/icons-material/CurrencyExchange";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -141,14 +147,28 @@ const Sidebar1 = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Update Profile"
-              to="/employee/update_profile"
-              icon={<UpdateOutlined />}
+                        <Item
+              title="My Request"
+              to="/employee/my_request"
+              icon={<RequestPageOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
-
+            <Item
+              title="My Exchange"
+              to="/employee/my_exchange"
+              icon={<OutputOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="My Participation"
+              to="/employee/my_participation"
+              icon={<OutboundOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -164,16 +184,23 @@ const Sidebar1 = () => {
               setSelected={setSelected}
             />
             <Item
-              title="My Request"
-              to="/employee/my_request"
-              icon={<ChangeCircleOutlined />}
+              title="Update Profile"
+              to="/employee/update_profile"
+              icon={<UpdateOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="My Exchange"
-              to="/employee/my_exchange"
-              icon={<ChangeCircleOutlined />}
+              title="Join Activities"
+              to="/employee/participation"
+              icon={<UploadTwoTone />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Voucher Exchange"
+              to="/employee/add_exchange"
+              icon={<CurrencyExchange />}
               selected={selected}
               setSelected={setSelected}
             />
