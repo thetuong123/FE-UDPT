@@ -136,7 +136,7 @@ const Sidebar1 = () => {
             </Typography>
             <Item
               title="Calendar"
-              to="/employee/calendar"
+              to="/employee/add_time_sheet"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -172,6 +172,13 @@ const Sidebar1 = () => {
             <Item
               title="My Check In"
               to="/employee/my_check_in"
+              icon={<CheckroomOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="My Time Sheet"
+              to="/employee/my_time_sheet"
               icon={<CheckroomOutlined />}
               selected={selected}
               setSelected={setSelected}

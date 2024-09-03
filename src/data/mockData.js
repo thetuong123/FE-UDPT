@@ -297,6 +297,56 @@ export const fetchMyWorkLogsData = async (startDate, endDate) => {
   }
 };
 
+// My Time Sheet
+export const getMyTimeSheet = async () => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) throw new Error('No access token found');
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/time_sheets/me/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (!response.ok) throw new Error('Failed to get time sheet');
+    return await response.json();
+  } catch (error) {
+    console.error('Error getting time sheet:', error);
+    return null;
+  }
+};
+
+export const UpdateMyTimeSheet = async (TimeSheetData) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/time_sheets/me/`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(TimeSheetData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to get time sheet');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error getting time sheet:', error);
+    return null;
+  }
+};
 
 
 //MANAGE TEAM
@@ -1320,6 +1370,58 @@ export const exchangeVoucher = async (ExchangeData) => {
     return await response.json();
   } catch (error) {
     console.error('Error creating voucher:', error);
+    return null;
+  }
+};
+
+//Time sheet
+export const fetchTimeSheetData = async (page = 1, limit = 10) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/time_sheets/?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching Time Sheet data:', error);
+    return [];
+  }
+};
+export const createTimeSheet = async (TimeSheetData) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/time_sheets/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(TimeSheetData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create Time Sheet');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating Time Sheet:', error);
     return null;
   }
 };

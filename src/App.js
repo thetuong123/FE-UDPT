@@ -26,9 +26,11 @@ import Sidebar1 from "./scenes/global/Sidebar1";
 import Calendar from "./scenes/calendar/calendar";
 import AddRequest from "./scenes/add_request";
 import AddExchange from "./scenes/add_exchange";
-
+import TimeSheet from "./scenes/time_sheet";
 import Check from "./scenes/check_in-out";
 import AddParticipation from "./scenes/add_participation";
+import AddTimeSheet from "./scenes/add_time_sheet";
+import MyTimeSheet from "./scenes/my_time_sheet";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -73,11 +75,15 @@ function App() {
               <Route path="/admin/point_transfer" element={<PointTransfer />} />
               <Route path="/admin/add_point_transfer" element={<AddPoinTrasnfer />} />
               <Route path="/admin/work_log" element={<WorkLog />} />
+              <Route path="/admin/time_sheet" element={<TimeSheet />} />
+              <Route path="/admin/add_time_sheet" element={<AddTimeSheet />} />
+
               {/**/}
               <Route path="/admin/my_request" element={<MyRequest />} />
               <Route path="/admin/my_exchange" element={<MyExchange />} />
               <Route path="/admin/check" element={<Check />} />
-              
+              <Route path="/admin/my_time_sheet" element={<MyTimeSheet />} />
+
               {/* Các route dành cho employee */}
               <Route path="/employee" element={<Dashboard />} />
               <Route path="/employee/change_password" element={<ChangePassword />} />
@@ -91,6 +97,8 @@ function App() {
               <Route path="/employee/check" element={<Check />} />
               <Route path="/employee/participation" element={<AddParticipation />} />
               <Route path="/employee/add_exchange" element={<AddExchange />} />
+              <Route path="/employee/add_time_sheet" element={<AddTimeSheet />} />
+              <Route path="/employee/my_time_sheet" element={<MyTimeSheet />} />
 
 
             </Routes>
