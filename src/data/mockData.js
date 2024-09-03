@@ -18,7 +18,7 @@ export const loginUser = async (username, password) => {
   loginData.append('username', username);
   loginData.append('password', password);
 
-  const response = await fetch(`${BASE_URL}/${API_VER}/login`, {
+  const response = await fetch(`${BASE_URL}/${API_VER}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -56,7 +56,7 @@ export const logoutUser = async () => {
     }
 
     // Make a request to the logout API
-    const response = await fetch(`${BASE_URL}/${API_VER}/logout`, {
+    const response = await fetch(`${BASE_URL}/${API_VER}/auth/logout`, {
       method: "POST",
       headers: {
         'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
@@ -234,9 +234,6 @@ export const fetchUserExchange = async (page = 1, limit = 10) => {
   }
 };
 //my participation
-// mockData.js
-
-// Fetch user's activity participations
 export const fetchUserParticipations = async (page = 1, limit = 10) => {
   const token = localStorage.getItem('accessToken');  // Get token from localStorage
 
@@ -267,6 +264,39 @@ export const fetchUserParticipations = async (page = 1, limit = 10) => {
     return null;
   }
 };
+
+//My check in
+export const fetchMyWorkLogsData = async (startDate, endDate) => {
+  const token = localStorage.getItem('accessToken');  // Retrieve token from localStorage
+
+  if (!token) {
+    throw new Error('No access token found. Please log in first.');
+  }
+
+  try {
+    const response = await fetch(`https://udpt-be.onrender.com/api/v1/work-logs/me/?start_date=${startDate}&end_date=${endDate}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,  // Attach token to header
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text(); // Get error response as text
+      console.error('Error response:', errorResponse);
+      throw new Error('Failed to fetch work logs');
+    }
+
+    const data = await response.json();
+    console.log('Work logs response data:', data);  // Log data for debugging
+    return data;
+  } catch (error) {
+    console.error('Error fetching work logs:', error);
+    return null;
+  }
+};
+
 
 
 //MANAGE TEAM
@@ -923,7 +953,7 @@ export const checkIn = async () => {
   }
 
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/check-in`, {
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/check-in`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -954,8 +984,8 @@ export const checkOut = async () => {
   }
 
   try {
-    const response = await fetch(`${BASE_URL}/${API_VER}/check-out`, {
-      method: 'POST',
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/check-out`, {
+      method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -1039,7 +1069,64 @@ export const fetchWorkLogs = async (startDate, endDate) => {
     return null;
   }
 };
+export const updateWorkLog = async (WorklogID, updatedData) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
 
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/note/${WorklogID}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update work log');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating work log:', error);
+    return null;
+  }
+};
+
+
+// Fetch a ticket by ID
+export const fetchWorkLogById = async (WorklogID) => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+
+    const response = await fetch(`${BASE_URL}/${API_VER}/work-logs/${WorklogID}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`, // Include the access token in the Authorization header
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch ticket data');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching ticket:', error);
+    return null;
+  }
+};
 //Point transfer
 
 export const createPointTransfer = async (PointTransferData) => {

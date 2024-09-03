@@ -10,6 +10,13 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import RequestPageOutlined from "@mui/icons-material/RequestPageOutlined";
 import AddOutlined from "@mui/icons-material/AddOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import PointOfSale from "@mui/icons-material/Money";
+import TrackChanges from "@mui/icons-material/TrackChanges";
+import Check from "@mui/icons-material/Check";
+import VolunteerActivism from "@mui/icons-material/VolunteerActivism";
+
+import CurrencyExchange from "@mui/icons-material/CurrencyExchange";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -117,20 +124,29 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            {/*
             <Item
               title="My Request"
               to="/admin/my_request"
-              icon={<ChangeCircleOutlined />}
+              icon={<RequestPage />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="My Exchange"
               to="/admin/my_exchange"
-              icon={<ChangeCircleOutlined />}
+              icon={<TrackChanges />}
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Check In"
+              to="/admin/check"
+              icon={<Check />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            */}
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -164,7 +180,7 @@ const Sidebar = () => {
             <Item
               title="Manage Activities"
               to="/admin/activities"
-              icon={<PeopleOutlinedIcon />}
+              icon={<TrackChanges />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -200,7 +216,7 @@ const Sidebar = () => {
             <Item
               title="Manage Work Log"
               to="/admin/work_log"
-              icon={<PeopleOutlinedIcon />}
+              icon={<Check />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -214,14 +230,14 @@ const Sidebar = () => {
             <Item
               title="Manage Voucher"
               to="/admin/voucher"
-              icon={<PeopleOutlinedIcon />}
+              icon={<VolunteerActivism />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Manage Exchange"
               to="/admin/exchange"
-              icon={<PeopleOutlinedIcon />}
+              icon={<CurrencyExchange />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -243,7 +259,7 @@ const Sidebar = () => {
             <Item
               title="Manage Point Transfer"
               to="/admin/point_transfer"
-              icon={<PeopleOutlinedIcon />}
+              icon={<PointOfSale />}
               selected={selected}
               setSelected={setSelected}
             />

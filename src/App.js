@@ -10,6 +10,7 @@ import ChangePassword from "./scenes/change_password";
 import MyRequest from "./scenes/my_request";
 import MyExchange from "./scenes/my_exchange";
 import MyParticipation from "./scenes/my_participation";
+import MyCheckIn from "./scenes/my_check_in";
 import Team from "./scenes/team";
 import Activities from "./scenes/activities";
 import PointTransfer from "./scenes/point_transfer";
@@ -71,10 +72,12 @@ function App() {
               <Route path="/admin/exchange" element={<Exchange />} />
               <Route path="/admin/point_transfer" element={<PointTransfer />} />
               <Route path="/admin/add_point_transfer" element={<AddPoinTrasnfer />} />
+              <Route path="/admin/work_log" element={<WorkLog />} />
+              {/**/}
               <Route path="/admin/my_request" element={<MyRequest />} />
               <Route path="/admin/my_exchange" element={<MyExchange />} />
-              <Route path="/admin/work_log" element={<WorkLog />} />
-
+              <Route path="/admin/check" element={<Check />} />
+              
               {/* Các route dành cho employee */}
               <Route path="/employee" element={<Dashboard />} />
               <Route path="/employee/change_password" element={<ChangePassword />} />
@@ -84,6 +87,7 @@ function App() {
               <Route path="/employee/my_request" element={<MyRequest />} />
               <Route path="/employee/my_exchange" element={<MyExchange />} />
               <Route path="/employee/my_participation" element={<MyParticipation />} />
+              <Route path="/employee/my_check_in" element={<MyCheckIn />} />
               <Route path="/employee/check" element={<Check />} />
               <Route path="/employee/participation" element={<AddParticipation />} />
               <Route path="/employee/add_exchange" element={<AddExchange />} />

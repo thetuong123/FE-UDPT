@@ -16,6 +16,7 @@ import OutboundOutlined from "@mui/icons-material/OutboundOutlined";
 import OutputOutlined from "@mui/icons-material/OutputOutlined";
 import UploadTwoTone from "@mui/icons-material/LocalActivityOutlined";
 import CurrencyExchange from "@mui/icons-material/CurrencyExchange";
+import CheckroomOutlined from "@mui/icons-material/CheckCircle";
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -147,7 +148,7 @@ const Sidebar1 = () => {
               selected={selected}
               setSelected={setSelected}
             />
-                        <Item
+             <Item
               title="My Request"
               to="/employee/my_request"
               icon={<RequestPageOutlined />}
@@ -168,7 +169,13 @@ const Sidebar1 = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+            <Item
+              title="My Check In"
+              to="/employee/my_check_in"
+              icon={<CheckroomOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Typography
               variant="h6"
               color={colors.grey[300]}
