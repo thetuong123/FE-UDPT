@@ -24,6 +24,7 @@ import AddPoinTrasnfer from "./scenes/add_point_transfer";
 import Request from "./scenes/request";
 import Sidebar1 from "./scenes/global/Sidebar1";
 import Calendar from "./scenes/calendar/calendar";
+<<<<<<< HEAD
 import AddRequest from "./scenes/add_request";
 import AddExchange from "./scenes/add_exchange";
 import TimeSheet from "./scenes/time_sheet";
@@ -32,6 +33,10 @@ import AddParticipation from "./scenes/add_participation";
 import AddTimeSheet from "./scenes/add_time_sheet";
 import MyTimeSheet from "./scenes/my_time_sheet";
 import UpdateTimeSheet from "./scenes/update_timesheet";
+=======
+import Voucher from "./scenes/voucher_manager";
+import AddVoucher from "./scenes/add_voucher";
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -75,6 +80,7 @@ function App() {
               <Route path="/admin/request" element={<Request />} />
               <Route path="/admin/voucher" element={<Voucher />} />
               <Route path="/admin/add_voucher" element={<AddVoucher />} />
+<<<<<<< HEAD
               <Route path="/admin/exchange" element={<Exchange />} />
               <Route path="/admin/point_transfer" element={<PointTransfer />} />
               <Route
@@ -93,6 +99,8 @@ function App() {
               <Route path="/admin/my_request" element={<MyRequest />} />
               <Route path="/admin/my_exchange" element={<MyExchange />} />
               <Route path="/admin/check" element={<Check />} />
+=======
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
 
               {/* Các route dành cho employee */}
               <Route path="/employee" element={<Dashboard />} />

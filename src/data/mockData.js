@@ -6,7 +6,12 @@ REACT_APP_API_VER=api/v1
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_VER = process.env.REACT_APP_API_VER;
 */
+<<<<<<< HEAD
 // mockData.js
+=======
+const BASE_URL = "https://udpt-be.onrender.com";
+const API_VER = "api/v1";
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
 
 const BASE_URL = "https://udpt-be.onrender.com";
 const API_VER = "api/v1";
@@ -367,6 +372,7 @@ export const UpdateMyTimeSheet = async (TimeSheetData) => {
 //View Team
 export const fetchTeamData = async (page = 1, limit = 10) => {
   try {
+<<<<<<< HEAD
     // Retrieve the access token from local storage
     const accessToken = localStorage.getItem("accessToken");
 
@@ -389,6 +395,11 @@ export const fetchTeamData = async (page = 1, limit = 10) => {
       throw new Error("Network response was not ok");
     }
 
+=======
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/users/?page=${page}&limit=${limit}`
+    );
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     const result = await response.json();
     return result.data; // Assuming the API response has a 'data' key
   } catch (error) {
@@ -429,7 +440,11 @@ export const createUser = async (userData) => {
   }
 };
 
+<<<<<<< HEAD
 //Delete User
+=======
+// Delete a user by ID
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
 export const deleteUser = async (userId) => {
   try {
     // Retrieve the access token from local storage
@@ -441,9 +456,12 @@ export const deleteUser = async (userId) => {
 
     const response = await fetch(`${BASE_URL}/${API_VER}/users/${userId}`, {
       method: "DELETE",
+<<<<<<< HEAD
       headers: {
         Authorization: `Bearer ${accessToken}`, // Include the access token in the Authorization header
       },
+=======
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     });
 
     if (!response.ok) {
@@ -466,10 +484,16 @@ export const updateUser = async (userId, updatedData) => {
     }
 
     const response = await fetch(`${BASE_URL}/${API_VER}/users/${userId}`, {
+<<<<<<< HEAD
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`, // Include the access token in the Authorization header
+=======
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
       },
       body: JSON.stringify(updatedData),
     });
@@ -487,11 +511,18 @@ export const updateUser = async (userId, updatedData) => {
 
 export const fetchUserById = async (userId) => {
   try {
+<<<<<<< HEAD
     // Retrieve the access token from local storage
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
       throw new Error("No access token found");
+=======
+    const response = await fetch(`${BASE_URL}/${API_VER}/users/${userId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user data");
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     }
 
     const response = await fetch(`${BASE_URL}/${API_VER}/users/${userId}`, {
@@ -509,7 +540,11 @@ export const fetchUserById = async (userId) => {
     return await response.json(); // Return the user data
   } catch (error) {
     console.error("Error fetching user:", error);
+<<<<<<< HEAD
     return null; // Return null if fetch fails
+=======
+    return null; // Trả về null nếu fetch thất bại
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
   }
 };
 
@@ -517,6 +552,7 @@ export const fetchUserById = async (userId) => {
 // View all activities
 export const fetchActivitiesData = async (page = 1, limit = 10) => {
   try {
+<<<<<<< HEAD
     // Retrieve the access token from local storage
     const accessToken = localStorage.getItem("accessToken");
 
@@ -535,6 +571,11 @@ export const fetchActivitiesData = async (page = 1, limit = 10) => {
       }
     );
 
+=======
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/activities/?page=${page}&limit=${limit}`
+    );
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     const result = await response.json();
     return result.data;
   } catch (error) {
@@ -542,6 +583,11 @@ export const fetchActivitiesData = async (page = 1, limit = 10) => {
     return [];
   }
 };
+<<<<<<< HEAD
+=======
+
+// Create a new activity
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
 export const createActivity = async (activityData) => {
   try {
     // Retrieve the access token from local storage
@@ -554,15 +600,22 @@ export const createActivity = async (activityData) => {
     const response = await fetch(`${BASE_URL}/${API_VER}/activities/`, {
       method: "POST",
       headers: {
+<<<<<<< HEAD
         Authorization: `Bearer ${accessToken}`, // Include the access token in the Authorization header
+=======
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
         "Content-Type": "application/json",
       },
       body: JSON.stringify(activityData),
     });
 
     if (!response.ok) {
+<<<<<<< HEAD
       const errorText = await response.text(); // Lấy thông tin lỗi từ response
       throw new Error(`Failed to create activity: ${errorText}`);
+=======
+      throw new Error("Failed to create activity");
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     }
 
     return await response.json();
@@ -575,6 +628,7 @@ export const createActivity = async (activityData) => {
 // Update an activity by ID// Update an activity by ID
 export const updateActivity = async (activityId, updatedData) => {
   try {
+<<<<<<< HEAD
     // Retrieve the access token from local storage
     const accessToken = localStorage.getItem("accessToken");
 
@@ -582,13 +636,18 @@ export const updateActivity = async (activityId, updatedData) => {
       throw new Error("No access token found");
     }
 
+=======
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     const response = await fetch(
       `${BASE_URL}/${API_VER}/activities/${activityId}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+<<<<<<< HEAD
           Authorization: `Bearer ${accessToken}`, // Include the access token in the Authorization header
+=======
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
         },
         body: JSON.stringify(updatedData),
       }
@@ -608,6 +667,7 @@ export const updateActivity = async (activityId, updatedData) => {
 // Fetch an activity by ID
 export const fetchActivityById = async (activityId) => {
   try {
+<<<<<<< HEAD
     // Retrieve the access token from local storage
     const accessToken = localStorage.getItem("accessToken");
 
@@ -624,6 +684,10 @@ export const fetchActivityById = async (activityId) => {
           "Content-Type": "application/json",
         },
       }
+=======
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/activities/${activityId}`
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     );
 
     if (!response.ok) {
@@ -641,11 +705,19 @@ export const fetchActivityById = async (activityId) => {
 // View all tickets
 export const fetchTicketsData = async (page = 1, limit = 10) => {
   try {
+<<<<<<< HEAD
     // Retrieve the access token from local storage
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
       throw new Error("No access token found");
+=======
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/tickets/?user_id=${userId}&page=${page}&limit=${limit}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch request data");
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     }
 
     const response = await fetch(
@@ -662,11 +734,16 @@ export const fetchTicketsData = async (page = 1, limit = 10) => {
     const result = await response.json();
     return result.data;
   } catch (error) {
+<<<<<<< HEAD
     console.error("Error fetching tickets data:", error);
+=======
+    console.error("Error fetching request data:", error);
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     return [];
   }
 };
 
+<<<<<<< HEAD
 // Create a new ticket
 export const createTicket = async (ticketData) => {
   try {
@@ -712,21 +789,39 @@ export const updateTicket = async (ticketId, updatedData) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`, // Include the access token in the Authorization header
+=======
+// Update an Request by ID
+export const updateRequest = async (ticketId, updatedData) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/tickets/${ticketId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
       },
       body: JSON.stringify(updatedData),
     });
 
     if (!response.ok) {
+<<<<<<< HEAD
       throw new Error("Failed to update ticket");
+=======
+      throw new Error("Failed to update Request");
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     }
 
     return await response.json();
   } catch (error) {
+<<<<<<< HEAD
     console.error("Error updating ticket:", error);
+=======
+    console.error("Error updating Request:", error);
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     return null;
   }
 };
 
+<<<<<<< HEAD
 // Fetch a ticket by ID
 export const fetchTicketById = async (ticketId) => {
   try {
@@ -735,6 +830,16 @@ export const fetchTicketById = async (ticketId) => {
 
     if (!accessToken) {
       throw new Error("No access token found");
+=======
+// Function to fetch work logs by work_logs_id
+export const fetchWorkLogById = async (work_logs_id) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/work-logs/${work_logs_id}`
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching work log with ID ${work_logs_id}`);
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     }
 
     const response = await fetch(`${BASE_URL}/${API_VER}/tickets/${ticketId}`, {
@@ -784,6 +889,7 @@ export const fetchTicketsByUserId = async (userId, page = 1, limit = 10) => {
     const result = await response.json();
     return result.data; // Assuming the API response has a 'data' key
   } catch (error) {
+<<<<<<< HEAD
     console.error("Error fetching tickets data:", error);
     return [];
   }
@@ -845,6 +951,9 @@ export const createVoucher = async (voucherData) => {
     return await response.json();
   } catch (error) {
     console.error("Error creating voucher:", error);
+=======
+    console.error("Error:", error);
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     return null;
   }
 };
@@ -852,11 +961,19 @@ export const createVoucher = async (voucherData) => {
 // Update a voucher by ID
 export const updateVoucher = async (voucherId, updatedData) => {
   try {
+<<<<<<< HEAD
     // Retrieve the access token from local storage
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
       throw new Error("No access token found");
+=======
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/work-logs/user/${user_id}`
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching work logs for user with ID ${user_id}`);
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     }
 
     const response = await fetch(
@@ -1137,6 +1254,7 @@ export const fetchWorkLogsData = async (
     console.log("API Response:", result);
     return result.data; // Assuming the API response has a 'data' key
   } catch (error) {
+<<<<<<< HEAD
     console.error("Error fetching work logs data:", error);
     return [];
   }
@@ -1202,10 +1320,14 @@ export const updateWorkLog = async (WorklogID, updatedData) => {
     return await response.json();
   } catch (error) {
     console.error("Error updating work log:", error);
+=======
+    console.error("Error:", error);
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
     return null;
   }
 };
 
+<<<<<<< HEAD
 // Fetch a ticket by ID
 export const fetchWorkLogById = async (WorklogID) => {
   try {
@@ -1521,3 +1643,99 @@ export const updateTimesheetStatus = async (id, status) => {
     return null;
   }
 };
+=======
+//create voucher instance
+export const createVoucher = async (Voucher) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Voucher),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create voucher");
+    }
+
+    const result = await response.json();
+    console.log("API response:", result);
+    return result.data;
+  } catch (error) {
+    console.error("Error creating voucher:", error);
+    return null;
+  }
+};
+
+//view voucher by ID of voucher
+export const viewVoucherByID = async (VoucherId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher/${VoucherId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch voucher data");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching voucher:", error);
+    return null;
+  }
+};
+
+//view voucher data
+export const viewVoucher = async (page = 1, limit = 10) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${API_VER}/voucher/?page=${page}&limit=${limit}`
+    );
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error("Error fetching vouchers data:", error);
+    return [];
+  }
+};
+
+//dekete voucher by ID
+export const deleteVoucher = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${API_VER}/voucher/${id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete voucher");
+    }
+    return true;
+  } catch (error) {
+    console.error("Error deleting voucher:", error);
+    return false;
+  }
+};
+
+export const AdminDashBoard = [
+  {
+    id: 1,
+    name: "ADMIN TEMP",
+    dob: "1/1/1995",
+    gender: "Male",
+    email: "jonsnow@gmail.com",
+    age: 35,
+    phone: "(665)121-5454",
+    address: "VN",
+  },
+];
+export const EmployeeDashBoard = [
+  {
+    id: 1,
+    name: "Employee Temp",
+    dob: "1/1/1995",
+    gender: "Male",
+    email: "jonsnow@gmail.com",
+    age: 35,
+    phone: "(665)121-5454",
+    address: "VN",
+  },
+];
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7

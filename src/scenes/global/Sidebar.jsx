@@ -10,6 +10,7 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import RequestPageOutlined from "@mui/icons-material/RequestPageOutlined";
 import AddOutlined from "@mui/icons-material/AddOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+<<<<<<< HEAD
 import PointOfSale from "@mui/icons-material/Money";
 import TrackChanges from "@mui/icons-material/TrackChanges";
 import Check from "@mui/icons-material/Check";
@@ -17,6 +18,9 @@ import VolunteerActivism from "@mui/icons-material/VolunteerActivism";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import CurrencyExchange from "@mui/icons-material/CurrencyExchange";
+=======
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -201,6 +205,31 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+<<<<<<< HEAD
+=======
+
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Voucher Management
+            </Typography>
+            <Item
+              title="Voucher Management"
+              to="/admin/voucher"
+              icon={<FavoriteBorderIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Add Voucher"
+              to="/admin/add_voucher"
+              icon={<AddOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+>>>>>>> 1df1d0b6ed536c2326a93596fdefd570f601adb7
 
             <Typography
               variant="h6"
